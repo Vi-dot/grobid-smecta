@@ -2,10 +2,16 @@
 
 GROBID GUI to manage training data tasks.
 <br />
-See [kermitt2/grobid](https://github.com/kermitt2/grobid)
+Extension for GROBID [kermitt2/grobid](https://github.com/kermitt2/grobid)
 
 grobid-smecta
 SMECTA : Safe ManagemEnt and Curation of Training datA
+
+## Next steps
+
+- Documentation
+- Replace grobid-astro link by generic
+- Launch webapp from maven
 
 ## Requirements
 
