@@ -1,0 +1,35 @@
+<div class="flex-container" fxLayout="row" fxLayoutAlign="start stretch">
+  <div #editorRef id="editor" fxFlex>
+    <div id="actions" *ngIf="teiHtmlTrust">
+      <button md-mini-fab color="accent" (click)="save()" [disabled]="saved"><md-icon>save</md-icon></button>
+      <button md-mini-fab color="accent" (click)="popState()" [disabled]="history.length == 0"><md-icon>undo</md-icon></button>
+      <p id="file-name">{{ currentFileName }}</p>
+    </div>
+    <div #contentRef id="content" [innerHTML]="teiHtmlTrust" (mousedown)="currentSelection = null;" (mouseup)="onSelected()">
+    </div>
+    <div #toolsRef id="tools" [ngStyle]="toolsStyle" *ngIf="currentSelection != null">
+      <button *ngIf="currentObjectNodes.length == 0" md-mini-fab color="primary" (click)="selAddObject()"><md-icon>add</md-icon></button>
+      <button *ngIf="currentObjectNodes.length > 0" md-mini-fab color="primary" (click)="selCropObjects()"><md-icon>transform</md-icon></button>
+      <button *ngIf="currentObjectNodes.length > 0" md-mini-fab color="warn" (click)="selRemoveObjects()"><md-icon>remove</md-icon></button>
+      <button md-mini-fab color="warn" (click)="selDeleteParagraph()"><md-icon>format_clear</md-icon></button>
+    </div>
+  </div>
+  <div id="list" fxFlex="250px">
+    <div *ngFor="let group of groups">
+      <button md-button class="fill-button" (click)="group.visible = group.visible ? false : true;">
+        <md-icon *ngIf="!group.visible">keyboard_arrow_right</md-icon>
+        <md-icon *ngIf="group.visible">keyboard_arrow_down</md-icon>
+        {{ group.raw }} <md-chip color="'primary'">({{ group.objects.length }})</md-chip>
+      </button>
+
+      <div *ngIf="group.visible">
+        <div *ngFor="let obj of group.objects" class="obj-list-item">
+          <a (click)="anchor(obj.id)">{{ obj.raw }}</a>
+        </div>
+      </div>
+
+      <md-divider></md-divider>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,68 @@
+@import '~@angular/material/core/theming/all-theme';
+
+@include md-core();
+
+$djin-primary: md-palette($md-amber);
+$djin-accent: md-palette($md-indigo);
+$djin-warn: md-palette($md-red);
+
+$djin-theme: md-light-theme($djin-primary, $djin-accent, $djin-warn);
+
+@include angular-material-theme($djin-theme);
+
+md-toolbar.md-primary, .toolbar {
+  background-color: #efefef;//md-color($md-amber, A200);
+  color: #222;
+  box-shadow: 0px 0px 2px #aaa;//md-color($md-amber, 800);
+}
+
+[md-menu-item].md-primary, [md-menu-item].md-primary md-icon {
+  color: md-color($djin-primary, 800);
+}
+[md-menu-item].md-accent, [md-menu-item].md-accent md-icon {
+  color: md-color($djin-accent, 800);
+}
+[md-menu-item].md-warn, [md-menu-item].md-warn md-icon {
+  color: md-color($djin-warn, 800);
+}
+
+md-toolbar.md-primary.dark, .toolbar.dark {
+  background-color: #999999;
+}
+
+.toolbar {
+  width: 100%;
+}
+
+.toolbar md-slider {
+  height: auto;
+}
+
+.md-menu-panel.md-menu-after.md-menu-below {
+	-webkit-border-bottom-right-radius: 2px;
+	-webkit-border-bottom-left-radius: 2px;
+	-moz-border-radius-bottomright: 2px;
+	-moz-border-radius-bottomleft: 2px;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
+.md-dialog-container {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+md-progress-circle.small, img.small {
+  width: 40px;
+}
+
+.md-slider-thumb {
+  background-color: #eeaa07;
+}
+
+.md-slider-track-fill {
+  background-color: #e3a007;
+}
+
+

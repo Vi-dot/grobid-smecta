@@ -1,0 +1,43 @@
+<div class="stats" *ngIf="files.length > 0">
+  <p *ngFor="let statKey of statsKeys();">
+    {{statKey}} :
+    <span class="indent1">{{stats[statKey].validNb}}/{{stats[statKey].total}}</span>
+    <span class="indent2">{{stats[statKey].validNb/stats[statKey].total | percent:'1.0-0'}}</span>
+  </p>
+</div>
+<md-list>
+  <div *ngFor="let file of files; let i = index" class="file-item">
+
+    <button md-raised-button class="fill-button"
+            (click)="select(file, i)"
+            [ngClass]="{'disabled': !file.enable, 'not-clickable': !clickable, 'selected': (currentIndex == i)}"
+            [color]="file.state > 0 ? (file.state == 1 ? 'primary' : 'accent') : ''">
+      <md-icon class="file-icon">insert_drive_file</md-icon> <span class="file-name">{{ file.name }}</span>
+    </button>
+
+    <button md-button class="to-right-button" [md-menu-trigger-for]="fileMenu" *ngIf="editable">
+      <md-icon style="color:#aaaaaa88;" *ngIf="file.state < 2">check</md-icon>
+      <md-icon style="color:#aaaaaa88;" *ngIf="file.state == 2">check_circle</md-icon>
+    </button>
+    <md-menu #fileMenu="mdMenu">
+      <button md-menu-item class="md-accent" (click)="file.state = 2; update(file);">
+        <span><md-icon class="inline">check_circle</md-icon> Validate</span>
+      </button>
+      <button md-menu-item class="md-primary" (click)="file.state = 1; update(file);">
+        <span><md-icon class="inline">check</md-icon> Work in progress</span>
+      </button>
+      <button md-menu-item (click)="file.state = 0; update(file);">
+        <span><md-icon class="inline">check</md-icon> Invalidate</span>
+      </button>
+      <button md-menu-item *ngIf="!file.enable" (click)="file.enable = !file.enable; update(file);">
+        <span><md-icon class="inline">add_circle</md-icon> Enable for training</span>
+      </button>
+      <button md-menu-item *ngIf="file.enable" (click)="file.enable = !file.enable; update(file);">
+        <span><md-icon class="inline">remove_circle</md-icon> Disable for training</span>
+      </button>
+    </md-menu>
+
+    <md-divider></md-divider>
+
+  </div>
+</md-list>

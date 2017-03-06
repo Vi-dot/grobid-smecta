@@ -1,0 +1,67 @@
+<div class="flex-container" fxLayout="row" fxLayoutAlign="start stretch">
+  <md-sidenav-container id="list" fxFlex="244px">
+    <md-list>
+      <md-list-item>
+        <button md-button (click)="clearData()" color="warn">
+          Clear
+        </button>
+      </md-list-item>
+      <md-list-item *ngFor="let item of data">
+        <button md-button (click)="selectedItem = item;">
+          <md-chip color="'primary'">#{{ item.id }}</md-chip> | {{ item.createDate | date : 'short' }}
+        </button>
+      </md-list-item>
+    </md-list>
+  </md-sidenav-container>
+  <md-tab-group id="tabs" *ngIf="selectedItem" fxFlex (focusChange)="onTabFocused($event)">
+
+    <md-tab label="Logs">
+      <div class="console">
+        {{ selectedItem.logs }}
+      </div>
+    </md-tab>
+
+    <md-tab label="Params" *ngIf="selectedItem.params">
+      <div class="page-content">
+        <h4>Training</h4>
+        <p>
+          <strong>epsilon : </strong> {{selectedItem.params.epsilon}}<br>
+          <strong>window : </strong> {{selectedItem.params.window}}<br>
+          <strong>nbMaxIterations : </strong> {{selectedItem.params.nbMaxIterations}}
+        </p>
+        <h4>Evaluation</h4>
+        <p>
+          <strong>splitRatio : </strong> {{selectedItem.params.splitRatio*100}}%<br>
+          <strong>splitRandom : </strong> {{selectedItem.params.splitRandom}}
+        </p>
+      </div>
+    </md-tab>
+
+    <md-tab label="Training Files" *ngIf="selectedItem.trainingFiles">
+      <training-files-list
+        *ngIf="showTrainingFiles"
+        [files]="selectedItem.trainingFiles"
+        [editable]="false"
+        [clickable]="false"
+      ></training-files-list>
+    </md-tab>
+
+    <md-tab label="Results" *ngIf="selectedItem.results">
+      <div class="page-content">
+        <h4>Execution</h4>
+        <p>
+          <strong>Total execution time : </strong> <span [outerHTML]="selectedItem.results.executionTimeMs | time"></span> <br>
+          <strong>Eval labeling time : </strong> <span [outerHTML]="selectedItem.results.labelingTimeMs | time"></span>
+        </p>
+        <h4>Instances</h4>
+        <p>
+          <strong>Total : </strong> {{selectedItem.results.totalInstance}} <br>
+          <strong>Found : </strong> {{selectedItem.results.correctInstance}} <br>
+          <strong>Recall : </strong> {{selectedItem.results.recallInstance}}%
+        </p>
+      </div>
+    </md-tab>
+
+  </md-tab-group>
+</div>
+

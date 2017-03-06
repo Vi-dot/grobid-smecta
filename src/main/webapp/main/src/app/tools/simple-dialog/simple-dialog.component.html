@@ -1,0 +1,7 @@
+<md-dialog-content>
+  {{ message }}
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button (click)="dialogRef.close(true)">{{yes}}</button>
+  <button md-raised-button (click)="dialogRef.close()">{{no}}</button>
+</md-dialog-actions>

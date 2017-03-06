@@ -1,0 +1,23 @@
+md-toolbar {
+  z-index: 30;
+  position: fixed;
+  top: 0;
+}
+
+#top-ghost {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 64px;
+}
+
+#logo {
+  height: 40px;
+  width: 200px;
+}
+
+h2 {
+  font-size: 12px;
+  align-self: flex-end;
+  margin-left: -10px;
+  margin-right: 10px;
+}

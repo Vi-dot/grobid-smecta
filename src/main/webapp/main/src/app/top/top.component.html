@@ -1,0 +1,23 @@
+<div id="top-ghost"></div>
+<md-toolbar color="primary">
+  <img id="logo" alt="grobid-smecta" src="assets/logo.png" />
+
+  <button md-button routerLink="/home" routerLinkActive="active">
+    Home
+  </button>
+
+  <button md-button [md-menu-trigger-for]="trainingMenu">
+    Training
+  </button>
+
+  <md-menu #trainingMenu="mdMenu">
+    <button md-menu-item routerLink="/trainer" routerLinkActive="active">
+      Trainer
+    </button>
+
+    <button md-menu-item routerLink="/training-files" routerLinkActive="active">
+      Training Files
+    </button>
+  </md-menu>
+
+</md-toolbar>

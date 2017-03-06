@@ -1,0 +1,65 @@
+:host {
+  height: 100%;
+}
+
+.flex-container {
+  height: 100%;
+}
+
+head {
+  font-size: 20px;
+}
+
+#list {
+  height: 100%;
+  border-left: 1px solid #e0e0e0;
+  overflow: scroll;
+
+  .obj-list-item, .obj-list-item md-list-item {
+    height: 26px;
+  }
+
+  .obj-list-item a {
+    color: #e09900;
+    text-decoration:underline;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+}
+
+
+#editor {
+  height: 100%;
+  padding: 20px;
+  overflow: scroll;
+  position: relative;
+
+  #actions {
+    position: sticky;
+    width: inherit;
+    top: 0;
+
+    #file-name {
+      margin: 0;
+      padding: 5px;
+      top: -20px;
+      right: -20px;
+      position: absolute;
+      background-color: #ffffff88;
+      font-size: 12px;
+      color: #444;
+    }
+  }
+
+  #content {
+    max-width: 900px;
+    margin: 10px auto;
+  }
+
+  #tools {
+    position: absolute;
+  }
+}
+
+

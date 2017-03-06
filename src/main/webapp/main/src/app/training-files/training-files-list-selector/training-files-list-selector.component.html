@@ -1,0 +1,15 @@
+<md-sidenav-container>
+  <md-progress-bar
+    *ngIf="loading"
+    mode="indeterminate"
+  ></md-progress-bar>
+
+  <training-files-list
+    [files]="files"
+    [editable]="true"
+    (onEdit)="update($event.file)"
+    [clickable]="true"
+    (onClick)="select($event.file.name)"
+  ></training-files-list>
+
+</md-sidenav-container>
