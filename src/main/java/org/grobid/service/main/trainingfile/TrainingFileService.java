@@ -14,8 +14,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.grobid.core.utilities.AstroProperties;
-
+import org.grobid.core.utils.SmectaProperties;
 import org.grobid.service.main.trainingfile.TrainingFileData.ContentDef;
 import org.grobid.service.main.trainingfile.TrainingFileData.MetaDef;
 import org.grobid.service.utils.ErrorHandler;
@@ -64,7 +63,7 @@ public class TrainingFileService {
 	
 	public Response file(String filename) {
 		
-		File dir = new File(AstroProperties.get("grobid.astro.corpusPath"));
+		File dir = new File(SmectaProperties.get("grobid.smecta.trainingFiles.mainDirectory"));
 		
 		if (!dir.exists())
 			return ErrorHandler.print("Can't find training files dir : "+dir.getAbsolutePath());
@@ -103,7 +102,7 @@ public class TrainingFileService {
 	
 	public Response postFile(ContentDef params) {
 		
-		File dir = new File(AstroProperties.get("grobid.astro.corpusPath"));
+		File dir = new File(SmectaProperties.get("grobid.smecta.trainingFiles.mainDirectory"));
 		
 		File file = new File(dir.getAbsolutePath() + "/" + params.filename);
 		

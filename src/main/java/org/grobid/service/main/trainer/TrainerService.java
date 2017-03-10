@@ -11,13 +11,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
-import org.grobid.core.exceptions.GrobidException;
 import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.mock.MockContext;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.trainer.AbstractTrainer;
-import org.grobid.trainer.AstroTrainer;
-
+import org.grobid.trainer.SmectaAbstractTrainer;
 import org.grobid.service.main.trainer.TrainerData.ParamsDef;
 import org.grobid.service.main.trainer.TrainerData.ResultsDef;
 import org.grobid.service.main.trainingfile.TrainingFileData;
@@ -50,7 +48,7 @@ public class TrainerService {
 			}
 	    	
 	    	try {
-				int res = process.waitFor();
+				process.waitFor();
 			} catch (InterruptedException e) {
 				process.destroy();
 			}
@@ -194,84 +192,68 @@ public class TrainerService {
 		return response;
 	}
 	
-	public static void main(String[] args) {
+	public static void runTrainer(String[] mainArgs, SmectaAbstractTrainer trainer) throws Exception {
 		String grobidHome = SmectaProperties.get("grobid.home");
 		String grobidProperties = SmectaProperties.get("grobid.properties");
 
-		try {
-			MockContext.setInitialContext(grobidHome, grobidProperties);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		MockContext.setInitialContext(grobidHome, grobidProperties);
 		GrobidProperties.getInstance();
 
 		LibraryLoader.load();
 		
-		try {
-			TrainingFileData.checkAndMoveFiles();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
 		
-		AstroTrainer trainer = null;
-		double splitRatio = -1;
-		boolean splitRandom = false;
+		TrainingFileData.checkAndMoveFiles();
 		
-		String[] argss;
-		if (args.length == 1)
-			argss = args[0].split(" ");
+		
+		String[] arrayArgs;
+		if (mainArgs.length == 1)
+			arrayArgs = mainArgs[0].split(" ");
 		else
-			argss = args;
+			arrayArgs = mainArgs;
 			
-		if (argss.length > 3) {
-			ParamsDef params = new ParamsDef();
+		ParamsDef params = new ParamsDef();
+		params.splitRatio = -1;
+		params.splitRandom = false;
+		
 			
-			for (int i=0 ; i<argss.length ; i++) {
-				switch (i) {
-				case 0:
-					params.epsilon = Double.parseDouble(argss[i]);
-					break;
-				case 1:
-					params.window = Integer.parseInt(argss[i]);
-					break;
-				case 2:
-					params.nbMaxIterations = Integer.parseInt(argss[i]);
-					break;
-				case 3:
-					splitRatio = Double.parseDouble(argss[i]);
-					break;
-				case 4:
-					splitRandom = Boolean.parseBoolean(argss[i]);
-					break;
-				}
+		for (int i=0 ; i<arrayArgs.length ; i++) {
+			switch (i) {
+			case 0:
+				params.epsilon = Double.parseDouble(arrayArgs[i]);
+				break;
+			case 1:
+				params.window = Integer.parseInt(arrayArgs[i]);
+				break;
+			case 2:
+				params.nbMaxIterations = Integer.parseInt(arrayArgs[i]);
+				break;
+			case 3:
+				params.splitRatio = Double.parseDouble(arrayArgs[i]);
+				break;
+			case 4:
+				params.splitRandom = Boolean.parseBoolean(arrayArgs[i]);
+				break;
 			}
-			
-			System.out.println("Params:\nepsilon:"+params.epsilon+"\nwindow:"+params.window+"\nnbMaxIterations:"+params.nbMaxIterations+"\nsplitRatio:"+splitRatio+"\nsplitRandom:"+splitRandom);
-			
-			trainer = new AstroTrainer(params.epsilon, params.window, params.nbMaxIterations);
 		}
+			
+		System.out.println("Params:\nepsilon:"+params.epsilon+"\nwindow:"+params.window+"\nnbMaxIterations:"+params.nbMaxIterations+"\nsplitRatio:"+params.splitRatio+"\nsplitRandom:"+params.splitRandom);
+			
+		trainer.setParams(params.epsilon, params.window, params.nbMaxIterations);
 		
-		if (trainer == null)
-			trainer = new AstroTrainer();
-		
-		if (splitRatio == -1)
+		// no Evaluation
+		if (params.splitRatio == -1) {
 			AbstractTrainer.runTraining(trainer);
-		else
-			runSplitTrainingEvaluation(trainer, splitRatio, splitRandom);
-			//AbstractTrainer.runSplitTrainingEvaluation(trainer, splitRatio);
+		}
+		// with Evaluation
+		else {
+			long start = System.currentTimeMillis();
+			
+			String report = trainer.splitTrainEvaluate(params.splitRatio, params.splitRandom);
+			System.out.println(report);
+			
+	        long end = System.currentTimeMillis();
+	        System.out.println("Total execution time: " + (end - start) + " ms");
+		}
 	}
-	
-	public static void runSplitTrainingEvaluation(final AstroTrainer trainer, Double split, boolean random) {
-        long start = System.currentTimeMillis();
-        try {
-            String report = trainer.splitTrainEvaluate(split, random);
-            System.out.println(report);
-        } catch (Exception e) {
-            throw new GrobidException("An exception occurred while evaluating Grobid.", e);
-        }
-        long end = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (end - start) + " ms");
-    }
 	
 }

@@ -16,7 +16,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Sorts;
 
-import org.grobid.service.main.trainingfile.TrainingFileData;
 import org.grobid.service.data.Data;
 import org.grobid.service.utils.Utils;
 

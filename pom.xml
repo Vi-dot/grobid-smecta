@@ -172,7 +172,7 @@
                                     <goal>java</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>org.grobid.service.main.trainer.TrainerService</mainClass>
+                                    <mainClass>org.grobid.service.main.trainer.TrainerMain</mainClass>
                                 </configuration>
                             </execution>
                         </executions>
