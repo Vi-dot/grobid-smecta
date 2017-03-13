@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.grobid.core.utilities.AstroProperties;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
@@ -59,7 +58,7 @@ public class TrainingFileData extends Data {
 	public JsonArray getAllMetaJson() throws IOException {
 		JsonArrayBuilder jsonBuilder = Json.createArrayBuilder();
 		
-		JsonArray jsonArrayTrain = getAllMetaJsonFromDir(AstroProperties.get("grobid.astro.corpusPath"), true);
+		JsonArray jsonArrayTrain = getAllMetaJsonFromDir(SmectaProperties.get("grobid.smecta.trainingFiles.mainDirectory"), true);
 		Iterator<JsonValue> it = jsonArrayTrain.iterator();
 		while (it.hasNext())
 			jsonBuilder.add(it.next());
@@ -141,7 +140,7 @@ public class TrainingFileData extends Data {
 			JsonObject fileObj = (JsonObject)it.next();
 			String fileName = fileObj.getString("name");
 			
-			String trainPath = AstroProperties.get("grobid.astro.corpusPath")+"/"+fileName;
+			String trainPath = SmectaProperties.get("grobid.smecta.trainingFiles.mainDirectory")+"/"+fileName;
 			String trashPath = SmectaProperties.get("grobid.smecta.trainingFiles.trashDirectory")+"/"+fileName;
 			
 			File trainFile = new File(trainPath);

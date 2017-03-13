@@ -2,7 +2,7 @@ package org.grobid.service.main.trainer;
 
 import org.grobid.trainer.AstroTrainer;
 
-public class TrainMain {
+public class TrainerMain {
 
 	public static void main(String[] args) {
 		
