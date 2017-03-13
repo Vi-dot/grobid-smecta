@@ -52,7 +52,7 @@ Specially `grobid.smecta.trainingFiles.mainDirectory`
 
 In your project, make your Trainer extends `SmectaAbstractTrainer`
 <br />
-Add dependency in your `pom.xml`
+Add dependency in `grobid-YOUR_MODULE/pom.xml`
 ```
 <dependency>
     <groupId>org.grobid</groupId>
@@ -61,11 +61,20 @@ Add dependency in your `pom.xml`
 </dependency>
 ```
 
-Extends your Trainer
+Extends your Trainer `grobid-YOUR_MODULE/.../YourTrainer.java`
 ```
 public class YourTrainer extends SmectaAbstractTrainer {
 	[...]
 }
+```
+
+Edit dependency to your project `grobid-smecta/pom.xml`
+```
+<dependency>
+    <groupId>org.grobid</groupId>
+    <artifactId>grobid-YOUR_MODULE</artifactId>
+    <version>0.4.2-SNAPSHOT</version>
+</dependency>
 ```
 
 Edit `grobid-smecta/src/main/java/org/grobid/service/main/trainer/TrainerMain.java`
