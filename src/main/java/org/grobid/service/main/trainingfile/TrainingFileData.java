@@ -64,7 +64,7 @@ public class TrainingFileData extends Data {
 		while (it.hasNext())
 			jsonBuilder.add(it.next());
 		
-		JsonArray jsonArrayTrash = getAllMetaJsonFromDir(SmectaProperties.get("grobid.smecta.train.trashDir"), false);
+		JsonArray jsonArrayTrash = getAllMetaJsonFromDir(SmectaProperties.get("grobid.smecta.trainingFiles.trashDirectory"), false);
 		it = jsonArrayTrash.iterator();
 		while (it.hasNext())
 			jsonBuilder.add(it.next());
@@ -142,7 +142,7 @@ public class TrainingFileData extends Data {
 			String fileName = fileObj.getString("name");
 			
 			String trainPath = AstroProperties.get("grobid.astro.corpusPath")+"/"+fileName;
-			String trashPath = SmectaProperties.get("grobid.smecta.train.trashDir")+"/"+fileName;
+			String trashPath = SmectaProperties.get("grobid.smecta.trainingFiles.trashDirectory")+"/"+fileName;
 			
 			File trainFile = new File(trainPath);
 			File trashFile = new File(trashPath);
