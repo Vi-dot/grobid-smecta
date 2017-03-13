@@ -15,7 +15,7 @@ import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.mock.MockContext;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.trainer.AbstractTrainer;
-import org.grobid.trainer.SmectaAbstractTrainer;
+//import org.grobid.trainer.SmectaAbstractTrainer;
 import org.grobid.service.main.trainer.TrainerData.ParamsDef;
 import org.grobid.service.main.trainer.TrainerData.ResultsDef;
 import org.grobid.service.main.trainingfile.TrainingFileData;
@@ -192,7 +192,7 @@ public class TrainerService {
 		return response;
 	}
 	
-	public static void runTrainer(String[] mainArgs, SmectaAbstractTrainer trainer) throws Exception {
+	public static void runTrainer(String[] mainArgs, AbstractTrainer trainer) throws Exception {
 		String grobidHome = SmectaProperties.get("grobid.home");
 		String grobidProperties = SmectaProperties.get("grobid.properties");
 
@@ -248,7 +248,8 @@ public class TrainerService {
 		else {
 			long start = System.currentTimeMillis();
 			
-			String report = trainer.splitTrainEvaluate(params.splitRatio, params.splitRandom);
+			//String report = trainer.splitTrainEvaluate(params.splitRatio, params.splitRandom);
+			String report = trainer.splitTrainEvaluate(params.splitRatio);
 			System.out.println(report);
 			
 	        long end = System.currentTimeMillis();

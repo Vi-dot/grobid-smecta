@@ -87,7 +87,7 @@ public class TrainingFileData extends Data {
 		JsonArrayBuilder jsonBuilder = Json.createArrayBuilder();
 		
 		for (int i=0 ; i<filesName.length ; i++) {
-			if (filesName[i].endsWith(".tei")) {
+			if (filesName[i].endsWith(".tei") || filesName[i].endsWith(".tei.xml")) {
 				MongoCursor<Document> it = mTrainingFileCollection.find(new BasicDBObject("name", filesName[i])).iterator();
 				Document trainingFile = null;
 				
