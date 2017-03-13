@@ -5,8 +5,9 @@ Webapp
 ## Requirements
 
 - grobid-smecta webservice
-- node, npm
-- angular-cli
+- node, version > 7.*
+- npm, version > 3.*
+- angular-cli, version > 1.0.0-rc.0
 
 `sudo npm install -g @angular/cli`
 
