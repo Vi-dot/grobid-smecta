@@ -7,6 +7,11 @@ Extension for GROBID [kermitt2/grobid](https://github.com/kermitt2/grobid)
 grobid-smecta
 SMECTA : Safe ManagemEnt and Curation of Training datA
 
+## Screenshots
+
+<a url="screenshots/files-editor.png" style="margin-right:10px;"><img src="screenshots/files-editor.png" height="200"></a>
+<a url="screenshots/new-training.png" style="margin-right:10px;"><img src="screenshots/new-training.png" height="200"></a>
+<a url="screenshots/trainings.png"><img src="screenshots/trainings.png" height="200"></a>
 
 ## Requirements
 

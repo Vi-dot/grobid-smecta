@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "start": "node ./bin/ng serve --proxy-config proxy.conf.json --port 5200",
-    "dev": "node ./bin/ng serve --proxy-config proxy.conf.json --port 5200",
-    "prod": "node ./bin/ng build --prod --env=prod && ng serve --env=prod --proxy-config proxy.conf.json --host localhost -port 5200",
+    "start": "ng serve --proxy-config proxy.conf.json --port 5200",
+    "dev": "ng serve --proxy-config proxy.conf.json --port 5200",
+    "prod": "ng build --prod --env=prod && ng serve --env=prod --proxy-config proxy.conf.json --host localhost -port 5200",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
