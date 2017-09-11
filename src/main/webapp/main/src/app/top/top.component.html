@@ -1,23 +1,11 @@
-<div id="top-ghost"></div>
-<md-toolbar color="primary">
-  <img id="logo" alt="grobid-smecta" src="assets/logo.png" />
-
-  <button md-button routerLink="/home" routerLinkActive="active">
-    Home
-  </button>
-
-  <button md-button [md-menu-trigger-for]="trainingMenu">
-    Training
-  </button>
-
-  <md-menu #trainingMenu="mdMenu">
-    <button md-menu-item routerLink="/trainer" routerLinkActive="active">
-      Trainer
-    </button>
-
-    <button md-menu-item routerLink="/training-files" routerLinkActive="active">
-      Training Files
-    </button>
-  </md-menu>
-
-</md-toolbar>
+<nav class="mat-elevation-z6">
+  <a class="logo" routerLink="/" aria-label="grobid-smecta">
+    <img class="docs-angular-logo"
+         src="../../assets/icon.png"
+         alt="angular">
+    <span>grobid-smecta</span>
+  </a>
+  <a md-button routerLink="/trainings">Trainings</a>
+  <a md-button routerLink="/files-editor">Files editor</a>
+  <div class="flex-spacer"></div>
+</nav>

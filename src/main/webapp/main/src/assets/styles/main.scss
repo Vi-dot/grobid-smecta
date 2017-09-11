@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+@import './app-theme';
+@import './general';
+
+
+// Include material core styles.
+@include mat-core();
+
+
+// Define the light theme.
+$primary: mat-palette($mat-indigo);
+$accent:  mat-palette($mat-deep-orange);
+
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+@include app-theme($theme);

@@ -7,18 +7,13 @@ Extension for GROBID [kermitt2/grobid](https://github.com/kermitt2/grobid)
 grobid-smecta
 SMECTA : Safe ManagemEnt and Curation of Training datA
 
-## Next steps
-
-- Documentation
-- Replace grobid-astro link by generic
-- Launch webapp from maven
 
 ## Requirements
 
 - Java
 - Maven
 - Grobid
-- MongoDB 
+- (MongoDB)
 
 ### Java
 
@@ -28,9 +23,9 @@ grobid and grobid-smecta need OpenJDK 1.8
 
 https://github.com/kermitt2/grobid
 
-### Mongodb
+### (Mongodb)
 
-https://docs.mongodb.com/v3.0/installation/
+(https://docs.mongodb.com/v3.0/installation/)
 
 
 ## Configuration
@@ -38,12 +33,12 @@ https://docs.mongodb.com/v3.0/installation/
 
 Create a directory for Mongodb data.
 <br />
-`grobid-smecta/$ mkdir data`
+`> mkdir data`
 <br /><br />
 
 Create a directory for training files deleted.
 <br />
-`grobid-smecta/$ mkdir trainingTrash`
+`> mkdir trainingTrash`
 <br /><br />
 
 Set your paths in properties file `grobid-smecta/src/main/resources/grobid-smecta.properties`
@@ -91,27 +86,38 @@ public static void main(String[] args) {
 }
 ```
 
+## Install
 
-### WebApp
+`> mvn clean install`
 
-See [Webapp documentation](src/main/webapp/main)
 
-## Usages
+## Usage
 
 ### Start MongoDB
 
 Run this command
 <br />
-`grobid-smecta/$ mongod --dbpath ./data --port 27042`
+`> mongod --dbpath ./data --port 27042`
 <br /><br />
 Or use the script
 <br />
-`grobid-smecta/$ ./db_start.sh`
+`> ./db_start.sh`
 
 ### Start Webservice
 
-`grobid-smecta/$ mvn jetty:run-war`
+`> mvn jetty:run-war`
 
 ### Start Webapp
 
-See [Webapp documentation](src/main/webapp/main)
+`> mvn exec:exec -Pclient-prod`
+
+## Developpment
+
+### Server part (java)
+
+To build sources, instead of using `mvn clean install`, you should use `mvn compile`, then you avoid to install again client tools.
+
+### Client part (angular)
+
+To have only local access, and a dynamic building, instead of using `mvn exec:exec -Pclient-prod`, you should use `mvn exec:exec -Pclient-dev`.
+

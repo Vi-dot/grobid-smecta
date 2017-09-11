@@ -193,14 +193,6 @@ public class TrainerService {
 	}
 	
 	public static void runTrainer(String[] mainArgs, AbstractTrainer trainer) throws Exception {
-		String grobidHome = SmectaProperties.get("grobid.home");
-		String grobidProperties = SmectaProperties.get("grobid.properties");
-
-		MockContext.setInitialContext(grobidHome, grobidProperties);
-		GrobidProperties.getInstance();
-
-		LibraryLoader.load();
-		
 		
 		TrainingFileData.checkAndMoveFiles();
 		

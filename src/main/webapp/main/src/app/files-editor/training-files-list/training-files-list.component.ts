@@ -14,40 +14,13 @@ interface Stats {
 export class TrainingFilesListComponent implements OnInit {
 
   currentIndex: number = -1;
-  journaux = ['A&A', 'AJ', 'ApJS', 'ApJ', 'MNRAS', 'NewA'];
-  stats: Stats = {};
-  initStats() {
-    for (var journal of this.journaux) {
-      this.stats[journal] = {
-        validNb: 0,
-        total: 0
-      };
-    }
-  }
-
-  statsKeys() : Array<string> {
-    return Object.keys(this.stats);
-  }
 
   @Input('files')
   set setFiles(value) {
     this.files = value;
-    this.initStats();
 
     for (var i=0 ; i<this.files.length ; i++) {
       var file = this.files[i];
-      for (var j=0 ; j<this.statsKeys().length ; j++) {
-        var statKey = this.statsKeys()[j];
-
-        if (file.name.includes(statKey)) {
-          if (file.enable) {
-            this.stats[statKey].total++;
-            if (file.state == 2)
-              this.stats[statKey].validNb++;
-          }
-          break;
-        }
-      }
     }
   }
   files: any = [];
@@ -72,7 +45,6 @@ export class TrainingFilesListComponent implements OnInit {
   }
 
   constructor() {
-    this.initStats();
   }
 
   ngOnInit() {

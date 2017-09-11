@@ -1,20 +1,17 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {MdDialogRef} from "@angular/material";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MD_DIALOG_DATA} from '@angular/material';
+
 
 @Component({
   selector: 'simple-dialog',
   templateUrl: './simple-dialog.component.html',
   styleUrls: ['./simple-dialog.component.scss']
 })
-export class SimpleDialog {
+export class SimpleDialogComponent implements OnInit {
 
-  public message: string = 'No message';
+  constructor(@Inject(MD_DIALOG_DATA) public data: any) {}
 
-  public yes: string = 'Yes';
-  public no: string = 'No';
-
-  constructor(public dialogRef: MdDialogRef<SimpleDialog>) {
-
+  ngOnInit() {
   }
 
 }

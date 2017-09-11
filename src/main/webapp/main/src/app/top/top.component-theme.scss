@@ -1,0 +1,19 @@
+@mixin top-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  top {
+    color: mat-color($primary, default-contrast);
+
+    .logo {
+      color: mat-color($primary, default-contrast);
+    }
+
+    nav {
+      background: mat-color($primary);
+    }
+  }
+}

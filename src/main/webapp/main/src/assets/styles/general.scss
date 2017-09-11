@@ -1,0 +1,166 @@
+body {
+  font-family: "Roboto","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+[md-button], [md-raised-button] {
+  text-transform: uppercase;
+}
+
+h1, h2 {
+  font-weight: 400;
+}
+
+pre {
+  // Pre elements won't wrap text by default and can exceed the boundaries of their parent element.
+  // This adds extra scroll space when visiting the docs mobile. Pre-wrapping the code examples
+  // will ensure that the code never exceeds the page width.
+  white-space: pre-wrap;
+}
+
+.page-header {
+  padding: 30px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+  box-sizing: border-box;
+  max-height: 100%;
+  display: flex;
+  flex-direction: row;
+  place-content: center flex-start;
+  align-items: center;
+
+  a {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+.page-header * {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.page-content {
+  padding: 20px 70px 50px;
+}
+
+.glu .mat-dialog-container {
+  padding: 0;
+
+  .mat-dialog-content {
+    margin: 0;
+  }
+
+  .mat-dialog-actions {
+    margin: 0;
+    padding: 12px 24px;
+  }
+}
+
+.align {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.align.v {
+  flex-direction: column;
+}
+
+.align.h {
+  flex-direction: row;
+}
+
+.align.centerh {
+  align-content: center;
+  align-items: center;
+}
+
+.align.centerv {
+  justify-content: center;
+}
+
+.align.right {
+  justify-content: flex-end;
+}
+
+.align .bottom {
+  align-self: flex-end;
+}
+
+form.align div,
+form.align input,
+form.align button {
+  margin: 5px;
+}
+
+.fillw {
+  width: 100%;
+}
+
+.fillh {
+  height: 100%;
+}
+
+.fillw, .fillh {
+  margin: 0;
+  padding: 0;
+}
+
+.abs {
+  position: absolute;
+}
+
+p.small {
+  font-size: 10px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.console {
+  background-color: #f4f4f4;
+  overflow: scroll;
+  padding: 10px;
+  font-size: 11px;
+  white-space: pre;
+}
+
+.obj-ref {
+  background-color: #ffc107;
+  transition: background-color 0.5s ease;
+}
+.obj-ref.highlighted {
+  background-color: red;
+}
+
+[md-button].fill-button, [md-raised-button].fill-button {
+  padding: 0;
+  width: 100%;
+  text-align: left;
+}
+
+[md-button].to-right-button, [md-raised-button].to-right-button {
+  padding: 0;
+  min-width: 20px;
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+
+[md-raised-button].fill-button:hover, [md-raised-button].fill-button.selected {
+  filter: brightness(85%);
+}
+
+md-icon.inline {
+  margin-top: -3px;
+  float: left;
+  position: relative;
+  right: -3px;
+}
+

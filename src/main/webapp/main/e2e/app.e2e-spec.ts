@@ -1,14 +1,14 @@
-import { DjinClientAdminPage } from './app.po';
+import { SmectaPage } from './app.po';
 
-describe('djin-client-admin App', function() {
-  let page: DjinClientAdminPage;
+describe('grobid-smecta App', function() {
+  let page: SmectaPage;
 
   beforeEach(() => {
-    page = new DjinClientAdminPage();
+    page = new SmectaPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!');
   });
 });

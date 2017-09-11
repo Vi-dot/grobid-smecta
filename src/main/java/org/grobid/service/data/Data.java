@@ -9,7 +9,8 @@ public class Data {
 
 	public static MongoDatabase db = null;
 	
-	public static void init() {
+	public static void init() {		
+		
 		MongoClient mongoClient = new MongoClient(
 				SmectaProperties.get("grobid.smecta.mongodb.host"),
 				Integer.parseInt(SmectaProperties.get("grobid.smecta.mongodb.port"))

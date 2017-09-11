@@ -1,0 +1,100 @@
+<div class="page-header">
+  <a routerLink="/trainings">Trainings ></a>
+  <h2>New training</h2>
+</div>
+
+<div class="page-content" fxLayout="column" fxLayoutAlign="start start">
+
+  <div class="form-row" fxLayout="row" fxLayoutAlign="start center">
+    <md-input-container>
+      <input mdInput
+             [(ngModel)]="params.epsilon"
+             placeholder="epsilon"
+             type="number"
+             step="0.000001">
+    </md-input-container>
+
+    <md-input-container>
+      <input mdInput
+             [(ngModel)]="params.window"
+             placeholder="window"
+             type="number">
+    </md-input-container>
+
+    <md-input-container>
+      <input mdInput
+             [(ngModel)]="params.nbMaxIterations"
+             placeholder="nbMaxIterations"
+             type="number">
+    </md-input-container>
+
+    <button md-icon-button color="primary" (click)="showHelp()">
+      <md-icon class="md-24" aria-label="?">help</md-icon>
+    </button>
+  </div>
+
+  <div class="form-row" fxLayout="row" fxLayoutAlign="start center">
+    <md-slide-toggle
+      [(ngModel)]="setsChecked"
+      [color]="'primary'">
+      Files sets
+    </md-slide-toggle>
+
+    <md-slide-toggle
+      [(ngModel)]="evaluation"
+      [color]="'primary'">
+      Evaluation
+    </md-slide-toggle>
+  </div>
+
+  <div *ngIf="evaluation && !setsChecked" class="form-row" fxLayout="row" fxLayoutAlign="start center">
+    <md-input-container>
+      <input mdInput
+             [(ngModel)]="params.splitRatio"
+             placeholder="splitRatio"
+             type="number"
+             step="10">
+      <md-hint align="end">%</md-hint>
+    </md-input-container>
+
+    <md-checkbox
+      *ngIf="evaluation && !setsChecked"
+      color="primary"
+      [(ngModel)]="params.splitRandom">
+      Random evaluation
+    </md-checkbox>
+  </div>
+
+  <div *ngIf="setsChecked" class="form-row" fxLayout="row" fxLayoutAlign="start center">
+    <md-select
+      placeholder="Training files"
+      [(ngModel)]="trainingSets"
+      [multiple]="true">
+      <md-option [value]="0">
+        empty
+      </md-option>
+    </md-select>
+
+    <md-select
+      *ngIf="evaluation"
+      placeholder="Evaluation files"
+      [(ngModel)]="evaluationSets"
+      [multiple]="true">
+      <md-option [value]="0">
+        empty
+      </md-option>
+    </md-select>
+  </div>
+
+
+  <div class="form-row" fxLayout="row" fxLayoutAlign="end center">
+    <button md-raised-button color="primary" [disabled]="!ready || training" (click)="toggle()">Start</button>
+    <button md-raised-button color="warn" [disabled]="!ready || !training" (click)="toggle()">Stop</button>
+  </div>
+
+
+  <div class="console" fxFlexAlign="center" fxFlex>
+    {{ logs }}
+  </div>
+
+</div>

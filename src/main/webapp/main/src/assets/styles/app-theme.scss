@@ -1,0 +1,27 @@
+@import '../../../node_modules/@angular/material/theming';
+
+@import '../../../src/app/top/top.component-theme';
+
+@mixin app-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .app-background {
+    background: mat-color($background, background);
+  }
+
+  .page-header {
+    color: mat-color($primary, default-contrast);
+    background: mat-color($primary);
+
+    a {
+      text-decoration: none;
+      color: mat-color($primary, default-contrast);
+    }
+  }
+
+  @include top-theme($theme);
+}

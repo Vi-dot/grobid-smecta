@@ -1,31 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import {Subscription} from "rxjs";
+import {SimpleDialogService} from "../../tools/simple-dialog/simple-dialog.service";
+import {Subscription} from "rxjs/Subscription";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Http} from "@angular/http";
-import {TrainerService} from "./trainer.service";
 
 @Component({
-  selector: 'trainer',
-  templateUrl: 'trainer.component.html',
-  styleUrls: ['trainer.component.scss']
+  selector: 'new-training',
+  templateUrl: './new-training.component.html',
+  styleUrls: ['./new-training.component.scss']
 })
-export class TrainerComponent implements OnInit {
+export class NewTrainingComponent implements OnInit {
 
-  help: boolean = false;
-  ready: boolean = false;
-  training: boolean = false;
-  logs: string = "";
-  reloader: Subscription = null;
-  evaluation: boolean = true;
-  params: any = {
+  public params: any = {
     'epsilon': 0.000001,
     'window': 20,
     'nbMaxIterations': 0,
     'splitRatio': 80,
     'splitRandom': false
   };
+  ready: boolean = false;
+  training: boolean = false;
+  logs: string = "";
+  reloader: Subscription = null;
+  evaluation: boolean = true;
 
-  constructor(private http: Http, private trainerService: TrainerService) {}
+  constructor(private simpleDialogService: SimpleDialogService, private http: Http) { }
 
   ngOnInit() {
     this.updateState(true);
@@ -82,7 +81,6 @@ export class TrainerComponent implements OnInit {
 
         if (!res.training && this.reloader) {
           this.reloader.unsubscribe();
-          this.trainerService.emitTrained();
         }
         else if (first) {
           this.reloader = TimerObservable.create(500, 500).subscribe(t => {
@@ -96,4 +94,15 @@ export class TrainerComponent implements OnInit {
 
       });
   }
+
+  public showHelp() {
+    this.simpleDialogService.show({
+      type: 'ok',
+      message: `These 3 parameters define stopping conditions for training.<br>
+      If <strong>nbMaxIterations</strong> is greater than 0, iterations don't exceed this value.<br>
+      In any case, if there are lesser differences between objects, it stops.<br>
+      It occurs on a period of iterations (<strong>window</strong>), when obj differential value didn't exceed <strong>epsilon</strong>.`
+    });
+  }
+
 }

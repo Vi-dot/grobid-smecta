@@ -4,7 +4,7 @@ import {Http} from "@angular/http";
 import {DOCUMENT, DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {PageScrollService, PageScrollInstance, PageScrollConfig} from 'ng2-page-scroll';
 import {MdDialog, MdDialogConfig} from "@angular/material";
-import {SimpleDialog} from "../../tools/simple-dialog/simple-dialog.component";
+import {SimpleDialogService} from "../../tools/simple-dialog/simple-dialog.service";
 
 @Component({
   selector: 'training-file-editor',
@@ -32,7 +32,7 @@ export class TrainingFileEditorComponent implements OnInit {
   @ViewChild('contentRef')
   private contentRef: ElementRef;
 
-  constructor(private http: Http, private filesListService: TrainingFilesListSelectorService, @Inject(DOCUMENT) private document: Document, private pageScrollService: PageScrollService, private sanitized: DomSanitizer, public dialog: MdDialog) {
+  constructor(private http: Http, private simpleDialogService: SimpleDialogService, private filesListService: TrainingFilesListSelectorService, @Inject(DOCUMENT) private document: Document, private pageScrollService: PageScrollService, private sanitized: DomSanitizer, public dialog: MdDialog) {
     this.onFileSelected = this.onFileSelected.bind(this);
     filesListService.onFileSelected(this.onFileSelected);
 
@@ -95,11 +95,11 @@ export class TrainingFileEditorComponent implements OnInit {
       this.selectFile(filename);
     }
     else {
-      let dialogRef = this.dialog.open(SimpleDialog);
-      dialogRef.componentInstance.message = 'You don\'t saved file, are you sure to erase last changes ?';
-      dialogRef.componentInstance.yes = 'Yes';
-      dialogRef.componentInstance.no = 'Cancel';
-      dialogRef.afterClosed().subscribe(result => {
+
+      this.simpleDialogService.show({
+        type: 'bool',
+        message: 'You don\'t saved file, are you sure to erase last changes ?'
+      }).afterClosed().subscribe(result => {
         if (result === true) {
           this.selectFile(filename);
         }

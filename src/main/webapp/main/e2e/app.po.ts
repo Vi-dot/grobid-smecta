@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class DjinClientAdminPage {
+export class SmectaPage {
   navigateTo() {
     return browser.get('/');
   }

@@ -1,7 +1,22 @@
+<md-toolbar *ngIf="data.title || data.icon" [color]="data.color">
+  <md-icon>{{ data.icon }}</md-icon>
+  <h4>{{ data.title }}</h4>
+</md-toolbar>
+
 <md-dialog-content>
-  {{ message }}
+  <p [innerHTML]="data.message"></p>
+  <dl *ngIf="data.details">
+    <dt>details</dt>
+    <dd>{{ data.details }}</dd>
+  </dl>
+  <md-chip-list *ngIf="data.tag">
+    <md-chip>{{ data.tag }}</md-chip>
+  </md-chip-list>
 </md-dialog-content>
+
 <md-dialog-actions>
-  <button md-raised-button (click)="dialogRef.close(true)">{{yes}}</button>
-  <button md-raised-button (click)="dialogRef.close()">{{no}}</button>
+  <button *ngIf="data.type == 'bool'" md-raised-button [color]="data.color" [md-dialog-close]="true">Yes</button>
+  <button *ngIf="data.type == 'bool'" md-button [md-dialog-close]="false">No</button>
+
+  <button *ngIf="data.type == 'ok'" md-raised-button [color]="data.color" [md-dialog-close]="true">Ok</button>
 </md-dialog-actions>
