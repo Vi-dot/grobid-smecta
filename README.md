@@ -1,4 +1,7 @@
-# grobid-smecta (Work in progress)
+<div style="background: #3f51b5; padding: 8px 16px;">
+	<img src="src/main/webapp/main/src/assets/icon.png">
+	<h1 style="color: white; display: inline-block;">grobid-smecta</h1>
+</div>
 
 GROBID GUI to manage training data tasks.
 <br />
