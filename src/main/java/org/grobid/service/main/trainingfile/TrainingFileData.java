@@ -52,7 +52,7 @@ public class TrainingFileData extends Data {
 	
 	public TrainingFileData() {
 		super();
-		mTrainingFileCollection = db.getCollection("trainingFileMeta");
+		//mTrainingFileCollection = db.getCollection("trainingFileMeta");
 	}
 	
 	public JsonArray getAllMetaJson() throws IOException {

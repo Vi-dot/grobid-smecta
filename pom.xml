@@ -100,6 +100,12 @@
         	<artifactId>mongodb-driver</artifactId>
 			<version>3.2.2</version>
     	</dependency>
+    	
+    	<dependency>
+			<groupId>io.jsondb</groupId>
+			<artifactId>jsondb-core</artifactId>
+			<version>1.0.64</version>
+		</dependency>
 	</dependencies>
 	
 	 <build>

@@ -1,6 +1,7 @@
 package org.grobid.service.main.trainer;
 
 import java.io.StringReader;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -17,11 +18,14 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Sorts;
 
 import org.grobid.service.data.Data;
+import org.grobid.service.data.model.Training;
+import org.grobid.service.data.model.TrainingParams;
+import org.grobid.service.data.model.TrainingResults;
 import org.grobid.service.utils.Utils;
 
 public class TrainerData extends Data {
 	
-	@XmlRootElement
+	/*@XmlRootElement
 	public static class ParamsDef {
 		@XmlElement public double epsilon = 0.000001;
 		@XmlElement public int window = 20;
@@ -40,17 +44,12 @@ public class TrainerData extends Data {
 		@XmlElement public double recallInstance = 0;
 		
 		@XmlElement public int executionTimeMs = 0;
-	}
+	}*/
 	
-	private MongoCollection<Document> mTrainerCollection;
+	//private MongoCollection<Document> mTrainerCollection;
 	
-	public TrainerData() {
-		super();
-		mTrainerCollection = db.getCollection("train");
-	}
-	
-	public void add(String logs, ParamsDef params, JsonArray trainingFiles, ResultsDef results) {
-		Document document = new Document();
+	public void add(String logs, TrainingParams params, JsonArray trainingFiles, TrainingResults results) {
+		/*Document document = new Document();
 		document.append("id", String.valueOf(mTrainerCollection.count()));
 		document.append("createDate", Utils.currentDateISO());
 		document.append("logs", logs);
@@ -73,27 +72,33 @@ public class TrainerData extends Data {
 		resultsObject.append("recallInstance", results.recallInstance);
 		document.append("results", resultsObject);
 		
-		mTrainerCollection.insertOne(document);
+		mTrainerCollection.insertOne(document);*/
+		
+		Training training = new Training();
+		
+		training.createDate = Utils.currentDateISO();
+		training.logs = logs;
+		
+		training.params = params;
+		db.insert(training.params);
+		
+		training.results = results;
+		db.insert(training.results);
+		
+		db.insert(training);
 	}
 	
 	public String getAllJson() {
 		JsonArrayBuilder jsonBuilder = Json.createArrayBuilder();
 		
-		MongoCursor<Document> cursor = mTrainerCollection.find().sort(Sorts.descending("createDate")).iterator();
+		List<Training> trainings = Data.getAll(Training.class);
 		
-		try {
-		    while (cursor.hasNext()) {
-		        JsonObject jsonObject = Json.createReader(new StringReader(cursor.next().toJson())).readObject();
-		    	jsonBuilder.add(jsonObject);
-		    }
-		} finally {
-		    cursor.close();
-		}
+		for (Training training : trainings)
+			jsonBuilder.add(training.toJson());
 		
 		return jsonBuilder.build().toString();
 	}
 	
 	public void clearAll() {
-		mTrainerCollection.deleteMany(new Document());
 	}
 }

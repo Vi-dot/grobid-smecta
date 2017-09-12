@@ -10,8 +10,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.grobid.service.data.model.TrainingParams;
 import org.grobid.service.main.trainer.TrainerService;
-import org.grobid.service.main.trainer.TrainerData.ParamsDef;
 import org.grobid.service.main.trainingfile.TrainingFileService;
 import org.grobid.service.main.trainingfile.TrainingFileData.ContentDef;
 import org.grobid.service.main.trainingfile.TrainingFileData.MetaDef;
@@ -34,7 +34,7 @@ public class SmectaService {
 	@Path("trainer/toggle")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response toggle(final ParamsDef params) {
+	public Response toggle(final TrainingParams params) {
 		return mTrainerService.toggle(params);
 	}
 	

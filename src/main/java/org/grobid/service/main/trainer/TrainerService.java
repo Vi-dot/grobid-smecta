@@ -11,13 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
-import org.grobid.core.main.LibraryLoader;
-import org.grobid.core.mock.MockContext;
-import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.trainer.AbstractTrainer;
-//import org.grobid.trainer.SmectaAbstractTrainer;
-import org.grobid.service.main.trainer.TrainerData.ParamsDef;
-import org.grobid.service.main.trainer.TrainerData.ResultsDef;
+import org.grobid.service.data.model.TrainingParams;
+import org.grobid.service.data.model.TrainingResults;
 import org.grobid.service.main.trainingfile.TrainingFileData;
 import org.grobid.core.utils.SmectaProperties;
 import org.grobid.service.utils.Utils;
@@ -62,7 +58,7 @@ public class TrainerService {
 	protected boolean mRunning;
 	protected Thread mTrainerThread;
 	protected TrainerData mTrainerData;
-	protected ParamsDef mParams;
+	protected TrainingParams mParams;
 	
 	public TrainerService() {		
 		mRunning = false;
@@ -70,7 +66,7 @@ public class TrainerService {
 		mTrainerData = new TrainerData();
 	}
 	
-	public Response toggle(final ParamsDef params) {
+	public Response toggle(final TrainingParams params) {
 		
 		if (!mRunning) {
 			mRunning = true;
@@ -143,7 +139,7 @@ public class TrainerService {
 	public void saveData() {		
 		String logs = getCurrentLogs();
 		
-		ResultsDef results = new ResultsDef();
+		TrainingResults results = new TrainingResults();
 		
 		try {
 			results.executionTimeMs = Integer.parseInt(Utils.findValueInText(logs, "Total execution time: ", " ms"));
@@ -157,15 +153,15 @@ public class TrainerService {
 			System.out.println("WARNING : parse error on logs to get results.");
 		}
 		
-		TrainingFileData trainingFileData = new TrainingFileData();
+		/*TrainingFileData trainingFileData = new TrainingFileData();
 		JsonArray trainingFiles = null;
 		try {
 			trainingFiles = trainingFileData.getAllMetaJson();
 		} catch (IOException e) {
 			System.out.println("WARNING : can't get training files.");
-		}
+		}*/
     	
-    	mTrainerData.add(logs, mParams, trainingFiles, results);
+    	mTrainerData.add(logs, mParams, null/*trainingFiles*/, results);
 	}
 	
 	public Response data() {
@@ -194,7 +190,7 @@ public class TrainerService {
 	
 	public static void runTrainer(String[] mainArgs, AbstractTrainer trainer) throws Exception {
 		
-		TrainingFileData.checkAndMoveFiles();
+		//TrainingFileData.checkAndMoveFiles();
 		
 		
 		String[] arrayArgs;
@@ -203,7 +199,7 @@ public class TrainerService {
 		else
 			arrayArgs = mainArgs;
 			
-		ParamsDef params = new ParamsDef();
+		TrainingParams params = new TrainingParams();
 		params.splitRatio = -1;
 		params.splitRandom = false;
 		
