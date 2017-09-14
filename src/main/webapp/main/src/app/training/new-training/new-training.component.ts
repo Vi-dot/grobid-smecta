@@ -23,6 +23,7 @@ export class NewTrainingComponent implements OnInit {
   logs: string = "";
   reloader: Subscription = null;
   evaluation: boolean = true;
+  setsChecked: any;
 
   constructor(private simpleDialogService: SimpleDialogService, private http: Http) { }
 

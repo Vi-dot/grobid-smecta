@@ -10,6 +10,7 @@ import {MdTabChangeEvent} from "@angular/material";
 })
 export class TrainingResultsComponent implements OnInit {
 
+  selectedItem: any;
   data: any = [];
   showTrainingFiles: boolean = false;
 
