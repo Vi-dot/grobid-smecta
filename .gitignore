@@ -40,6 +40,6 @@ svn-commit*.tmp
 .classpath
 .project
 target
-data
+./data
 trainingTrash
 
