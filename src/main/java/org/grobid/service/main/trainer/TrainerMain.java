@@ -4,6 +4,7 @@ import org.grobid.core.main.LibraryLoader;
 import org.grobid.core.mock.MockContext;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.utils.SmectaProperties;
+import org.grobid.service.data.Dao;
 import org.grobid.trainer.AstroTrainer;
 
 public class TrainerMain {
@@ -22,11 +23,10 @@ public class TrainerMain {
 			e1.printStackTrace();
 		}
 		
-		
 		// Make your trainer extending from SmectaAbstractTrainer
 		AstroTrainer trainer = new AstroTrainer();
 		
-		try {			
+		try {
 			TrainerService.runTrainer(args, trainer);
 		} catch (Exception e) {
 			e.printStackTrace();

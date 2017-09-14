@@ -12,9 +12,10 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
 import org.grobid.trainer.AbstractTrainer;
+import org.grobid.service.data.Dao;
 import org.grobid.service.data.model.TrainingParams;
 import org.grobid.service.data.model.TrainingResults;
-import org.grobid.service.main.trainingfile.TrainingFileData;
+import org.grobid.service.main.trainingfile.TrainingFileDao;
 import org.grobid.core.utils.SmectaProperties;
 import org.grobid.service.utils.Utils;
 
@@ -24,46 +25,55 @@ public class TrainerService {
 		
 		public void run() {
 			
-			String logPath = SmectaProperties.get("grobid.smecta.trainer.log");
-			File logFile = new File(logPath);
-	    	
-			ProcessBuilder builder = null;
-	    	if (mParams != null)
-	    		builder = new ProcessBuilder("mvn", "generate-resources", "-e", "-Ptrain", "-Dexec.args="+String.valueOf(mParams.epsilon)+" "+String.valueOf(mParams.window)+" "+String.valueOf(mParams.nbMaxIterations)+" "+String.valueOf(mParams.splitRatio)+" "+String.valueOf(mParams.splitRandom));
-	    	else
-	    		builder = new ProcessBuilder("mvn", "generate-resources","-Ptrain");
-	    	
-	    	builder.redirectErrorStream(true);
-	    	
-	    	builder.redirectOutput(Redirect.to(logFile));
-	    	Process process = null;
-	    	try {
+			Process process = null;
+			
+			try {
+				TrainingFileDao.checkAndMoveFiles();
+			
+			
+				String logPath = SmectaProperties.get("grobid.smecta.trainer.log");
+				File logFile = new File(logPath);
+		    	
+				ProcessBuilder builder = null;
+		    	if (mParams != null)
+		    		builder = new ProcessBuilder("mvn", "generate-resources", "-e", "-Ptrain", "-Dexec.args="+String.valueOf(mParams.epsilon)+" "+String.valueOf(mParams.window)+" "+String.valueOf(mParams.nbMaxIterations)+" "+String.valueOf(mParams.splitRatio)+" "+String.valueOf(mParams.splitRandom));
+		    	else
+		    		builder = new ProcessBuilder("mvn", "generate-resources","-Ptrain");
+		    	
+		    	builder.redirectErrorStream(true);
+		    	
+		    	builder.redirectOutput(Redirect.to(logFile));
+		    	
+		    	
 				process = builder.start();
+				
+				try {
+					process.waitFor();
+				} catch (InterruptedException e) {
+					process.destroy();
+				}
+				
+		    	saveData();
+		    	
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-	    	
-	    	try {
-				process.waitFor();
-			} catch (InterruptedException e) {
-				process.destroy();
-			}
-	    	
-	    	saveData();
-	    	
-	    	mRunning = false;
+		    	
+		    mRunning = false;
 	    }
 	}
 	
 	protected boolean mRunning;
 	protected Thread mTrainerThread;
-	protected TrainerData mTrainerData;
+	protected TrainerDao mTrainerDao;
 	protected TrainingParams mParams;
 	
 	public TrainerService() {		
 		mRunning = false;
 		mTrainerThread = null;
-		mTrainerData = new TrainerData();
+		mTrainerDao = Dao.getInstance(TrainerDao.class);
 	}
 	
 	public Response toggle(final TrainingParams params) {
@@ -152,16 +162,12 @@ public class TrainerService {
 		catch(Exception e) {
 			System.out.println("WARNING : parse error on logs to get results.");
 		}
-		
-		/*TrainingFileData trainingFileData = new TrainingFileData();
-		JsonArray trainingFiles = null;
-		try {
-			trainingFiles = trainingFileData.getAllMetaJson();
-		} catch (IOException e) {
-			System.out.println("WARNING : can't get training files.");
-		}*/
     	
-    	mTrainerData.add(logs, mParams, null/*trainingFiles*/, results);
+    	try {
+			mTrainerDao.insert(logs, mParams, Dao.getInstance(TrainingFileDao.class).getAllMeta(), results);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Response data() {
@@ -169,7 +175,7 @@ public class TrainerService {
 		Response response = Response
                 .ok()
                 .type(MediaType.APPLICATION_JSON)
-                .entity(mTrainerData.getAllJson())
+                .entity(mTrainerDao.getAllJson())
                 .build();
 		
 		return response;
@@ -177,7 +183,7 @@ public class TrainerService {
 	
 	public Response clearData() {
 		
-		mTrainerData.clearAll();
+		mTrainerDao.clearAll();
 		
 		Response response = Response
                 .ok()
@@ -188,10 +194,7 @@ public class TrainerService {
 		return response;
 	}
 	
-	public static void runTrainer(String[] mainArgs, AbstractTrainer trainer) throws Exception {
-		
-		//TrainingFileData.checkAndMoveFiles();
-		
+	public static void runTrainer(String[] mainArgs, AbstractTrainer trainer) throws Exception {		
 		
 		String[] arrayArgs;
 		if (mainArgs.length == 1)

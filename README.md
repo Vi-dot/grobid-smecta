@@ -21,7 +21,6 @@ SMECTA : Safe ManagemEnt and Curation of Training datA
 - Java
 - Maven
 - Grobid
-- (MongoDB)
 
 ### Java
 
@@ -31,23 +30,8 @@ grobid and grobid-smecta need OpenJDK 1.8
 
 https://github.com/kermitt2/grobid
 
-### (Mongodb)
-
-(https://docs.mongodb.com/v3.0/installation/)
-
 
 ## Configuration
-
-
-Create a directory for Mongodb data.
-<br />
-`> mkdir data`
-<br /><br />
-
-Create a directory for training files deleted.
-<br />
-`> mkdir trainingTrash`
-<br /><br />
 
 Set your paths in properties file `grobid-smecta/src/main/resources/grobid-smecta.properties`
 <br />
@@ -64,19 +48,12 @@ Add dependency in `grobid-YOUR_MODULE/pom.xml`
 </dependency>
 ```
 
-Extends your Trainer `grobid-YOUR_MODULE/.../YourTrainer.java`
-```
-public class YourTrainer extends SmectaAbstractTrainer {
-	[...]
-}
-```
-
 Edit dependency to your project `grobid-smecta/pom.xml`
 ```
 <dependency>
     <groupId>org.grobid</groupId>
     <artifactId>grobid-YOUR_MODULE</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.4.3-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -101,23 +78,19 @@ public static void main(String[] args) {
 
 ## Usage
 
-### Start MongoDB
-
-Run this command
-<br />
-`> mongod --dbpath ./data --port 27042`
-<br /><br />
-Or use the script
-<br />
-`> ./db_start.sh`
-
-### Start Webservice
+### Start Webservice API
 
 `> mvn jetty:run-war`
+
+Webservice API is now available at `http://localhost:5100/api`
 
 ### Start Webapp
 
 `> mvn exec:exec -Pclient-prod`
+
+Wepapp is now available at `http://localhost:5200`
+
+A proxy is made to api at `http://localhost:5200/api`
 
 ## Developpment
 

@@ -27,11 +27,6 @@ export class TrainingResultsComponent implements OnInit {
 
         var temp = data.json();
 
-        for (var i=0 ; i<temp.length ; i++) {
-          if (temp[i].trainingFiles)
-            temp[i].trainingFiles = JSON.parse(temp[i].trainingFiles);
-        }
-
         this.data = temp;
 
         console.log(this.data);

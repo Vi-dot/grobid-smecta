@@ -4,7 +4,7 @@
     <button md-raised-button class="fill-button"
             (click)="select(file, i)"
             [ngClass]="{'disabled': !file.enable, 'not-clickable': !clickable, 'selected': (currentIndex == i)}"
-            [color]="file.state > 0 ? (file.state == 1 ? 'primary' : 'accent') : ''">
+            [color]="file.state > 0 ? (file.state == 1 ? 'accent' : 'primary') : ''">
       <md-icon class="file-icon">insert_drive_file</md-icon> <span class="file-name">{{ file.name }}</span>
     </button>
 

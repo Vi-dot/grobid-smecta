@@ -10,11 +10,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.grobid.service.data.Dao;
+import org.grobid.service.data.model.TrainingFile;
 import org.grobid.service.data.model.TrainingParams;
 import org.grobid.service.main.trainer.TrainerService;
 import org.grobid.service.main.trainingfile.TrainingFileService;
-import org.grobid.service.main.trainingfile.TrainingFileData.ContentDef;
-import org.grobid.service.main.trainingfile.TrainingFileData.MetaDef;
 
 import com.sun.jersey.spi.resource.Singleton;
 
@@ -26,6 +26,7 @@ public class SmectaService {
 	protected TrainingFileService mTrainingFileService;
 	
 	public SmectaService() {
+		Dao.openDb();
 		mTrainerService = new TrainerService();
 		mTrainingFileService = new TrainingFileService();
 	}
@@ -71,7 +72,7 @@ public class SmectaService {
 	@Path("training/meta-file")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postMetaFile(final MetaDef params) {
+	public Response postMetaFile(final TrainingFile params) {
 		return mTrainingFileService.postMetaFile(params);
 	}
 	
@@ -86,7 +87,7 @@ public class SmectaService {
 	@Path("training/file")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postFile(final ContentDef params) {
+	public Response postFile(final TrainingFile params) {
 		return mTrainingFileService.postFile(params);
 	}
 }

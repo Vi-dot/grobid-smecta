@@ -30,6 +30,11 @@ export class NewTrainingComponent implements OnInit {
     this.updateState(true);
   }
 
+  ngOnDestroy() {
+    if (this.reloader)
+      this.reloader.unsubscribe();
+  }
+
   toggle() {
     this.ready = false;
 

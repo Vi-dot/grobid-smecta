@@ -15,16 +15,26 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.grobid.core.utils.SmectaProperties;
-import org.grobid.service.main.trainingfile.TrainingFileData.ContentDef;
-import org.grobid.service.main.trainingfile.TrainingFileData.MetaDef;
+import org.grobid.service.data.Dao;
+import org.grobid.service.data.model.Model;
+import org.grobid.service.data.model.TrainingFile;
 import org.grobid.service.utils.ErrorHandler;
 
 public class TrainingFileService {
 	
-	protected TrainingFileData mTrainingFileData;
+	protected TrainingFileDao mTrainingFileDao;
 	
 	public TrainingFileService() {		
-		mTrainingFileData = new TrainingFileData();
+		mTrainingFileDao = Dao.getInstance(TrainingFileDao.class);
+		createTrainingTrashIfNeeded();
+	}
+	
+	private void createTrainingTrashIfNeeded() {
+		File dir = new File(SmectaProperties.get("grobid.smecta.trainingFiles.trashDirectory"));
+		if (!dir.exists()) {
+			if (!dir.mkdirs())
+				ErrorHandler.print("Can't create trainingTrash directory, check access rights.");
+		}
 	}
 	
 	public Response metaFiles() {
@@ -35,7 +45,7 @@ public class TrainingFileService {
 			response = Response
 			        .ok()
 			        .type(MediaType.APPLICATION_JSON)
-			        .entity(mTrainingFileData.getAllMetaJson().toString())
+			        .entity(Model.listToJson(mTrainingFileDao.getAllMeta()).build().toString())
 			        .build();
 			
 		} catch (IOException e) {
@@ -45,9 +55,9 @@ public class TrainingFileService {
 		return response;
 	}
 	
-	public Response postMetaFile(MetaDef def) {
+	public Response postMetaFile(TrainingFile metaDef) {
 		
-		boolean res = mTrainingFileData.updateMeta(def);
+		boolean res = mTrainingFileDao.updateMeta(metaDef);
 		
 		if (!res)
 			return ErrorHandler.print("File not found.");
@@ -100,7 +110,7 @@ public class TrainingFileService {
 	
 	
 	
-	public Response postFile(ContentDef params) {
+	public Response postFile(TrainingFile params) {
 		
 		File dir = new File(SmectaProperties.get("grobid.smecta.trainingFiles.mainDirectory"));
 		

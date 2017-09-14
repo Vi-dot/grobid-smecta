@@ -8,7 +8,7 @@
       </md-list-item>
       <md-list-item *ngFor="let item of data">
         <button md-button (click)="selectedItem = item;">
-          <md-chip color="'primary'">#{{ item.id }}</md-chip> | {{ item.createDate | date : 'short' }}
+          <md-chip color="'primary'">{{ item.createDate | date : 'short' }} | #{{ item.id }}</md-chip>
         </button>
       </md-list-item>
     </md-list>

@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class Utils {
-
-	public static String currentDateISO() {
+	
+	public static String dateToISO(Date date) {
 		TimeZone timeZone = TimeZone.getTimeZone("UTC");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		dateFormat.setTimeZone(timeZone);
-		return dateFormat.format(new Date());
+		return dateFormat.format(date);
 	}
 	
 	public static String findValueInText(String text, String label, String end) {
