@@ -99,6 +99,11 @@
 			<artifactId>nitrite</artifactId>
 			<version>2.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>args4j</groupId>
+			<artifactId>args4j</artifactId>
+			<version>2.33</version>
+		</dependency>
 	</dependencies>
 	
 	 <build>
@@ -262,7 +267,7 @@
                                     <goal>java</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>org.grobid.service.main.trainer.TrainerMain</mainClass>
+                                    <mainClass>org.grobid.service.main.trainer.TrainerRunner</mainClass>
                                 </configuration>
                             </execution>
                         </executions>

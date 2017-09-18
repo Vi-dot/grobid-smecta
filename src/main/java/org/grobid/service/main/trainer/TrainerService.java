@@ -25,33 +25,11 @@ public class TrainerService {
 		
 		public void run() {
 			
-			Process process = null;
-			
 			try {
 				TrainingFileDao.checkAndMoveFiles();
 			
 			
-				String logPath = SmectaProperties.get("grobid.smecta.trainer.log");
-				File logFile = new File(logPath);
-		    	
-				ProcessBuilder builder = null;
-		    	if (mParams != null)
-		    		builder = new ProcessBuilder("mvn", "generate-resources", "-e", "-Ptrain", "-Dexec.args="+String.valueOf(mParams.epsilon)+" "+String.valueOf(mParams.window)+" "+String.valueOf(mParams.nbMaxIterations)+" "+String.valueOf(mParams.splitRatio)+" "+String.valueOf(mParams.splitRandom));
-		    	else
-		    		builder = new ProcessBuilder("mvn", "generate-resources","-Ptrain");
-		    	
-		    	builder.redirectErrorStream(true);
-		    	
-		    	builder.redirectOutput(Redirect.to(logFile));
-		    	
-		    	
-				process = builder.start();
-				
-				try {
-					process.waitFor();
-				} catch (InterruptedException e) {
-					process.destroy();
-				}
+				TrainerRunner.process(mParams);
 				
 		    	saveData();
 		    	
@@ -193,59 +171,4 @@ public class TrainerService {
 		
 		return response;
 	}
-	
-	public static void runTrainer(String[] mainArgs, AbstractTrainer trainer) throws Exception {		
-		
-		String[] arrayArgs;
-		if (mainArgs.length == 1)
-			arrayArgs = mainArgs[0].split(" ");
-		else
-			arrayArgs = mainArgs;
-			
-		TrainingParams params = new TrainingParams();
-		params.splitRatio = -1;
-		params.splitRandom = false;
-		
-			
-		for (int i=0 ; i<arrayArgs.length ; i++) {
-			switch (i) {
-			case 0:
-				params.epsilon = Double.parseDouble(arrayArgs[i]);
-				break;
-			case 1:
-				params.window = Integer.parseInt(arrayArgs[i]);
-				break;
-			case 2:
-				params.nbMaxIterations = Integer.parseInt(arrayArgs[i]);
-				break;
-			case 3:
-				params.splitRatio = Double.parseDouble(arrayArgs[i]);
-				break;
-			case 4:
-				params.splitRandom = Boolean.parseBoolean(arrayArgs[i]);
-				break;
-			}
-		}
-			
-		System.out.println("Params:\nepsilon:"+params.epsilon+"\nwindow:"+params.window+"\nnbMaxIterations:"+params.nbMaxIterations+"\nsplitRatio:"+params.splitRatio+"\nsplitRandom:"+params.splitRandom);
-			
-		trainer.setParams(params.epsilon, params.window, params.nbMaxIterations);
-		
-		// no Evaluation
-		if (params.splitRatio == -1) {
-			AbstractTrainer.runTraining(trainer);
-		}
-		// with Evaluation
-		else {
-			long start = System.currentTimeMillis();
-			
-			//String report = trainer.splitTrainEvaluate(params.splitRatio, params.splitRandom);
-			String report = trainer.splitTrainEvaluate(params.splitRatio);
-			System.out.println(report);
-			
-	        long end = System.currentTimeMillis();
-	        System.out.println("Total execution time: " + (end - start) + " ms");
-		}
-	}
-	
 }

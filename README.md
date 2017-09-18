@@ -10,6 +10,8 @@ Extension for GROBID [kermitt2/grobid](https://github.com/kermitt2/grobid)
 grobid-smecta
 SMECTA : Safe ManagemEnt and Curation of Training datA
 
+
+
 ## Screenshots
 
 <a url="screenshots/files-editor.png" style="margin-right:10px;"><img src="screenshots/files-editor.png" height="200"></a>
@@ -31,24 +33,18 @@ grobid and grobid-smecta need OpenJDK 1.8
 https://github.com/kermitt2/grobid
 
 
+
 ## Configuration
 
-Set your paths in properties file `grobid-smecta/src/main/resources/grobid-smecta.properties`
-<br />
-Specially `grobid.smecta.trainingFiles.mainDirectory`
-
-In your project, make your Trainer extends `SmectaAbstractTrainer`
-<br />
-Add dependency in `grobid-YOUR_MODULE/pom.xml`
+In `grobid-smecta/src/main/resources/grobid-smecta.properties`,
+you have to edit at least these values, according to your project :
 ```
-<dependency>
-    <groupId>org.grobid</groupId>
-    <artifactId>grobid-smecta</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-</dependency>
+grobid.smecta.trainingFiles.mainDirectory=../grobid-YOUR_MODULE/resources/dataset/astro/corpus
+grobid.semcta.trainerClass=org.grobid.trainer.YourTrainer
 ```
 
-Edit dependency to your project `grobid-smecta/pom.xml`
+In `grobid-smecta/pom.xml`,
+add dependency to your project (replace `grobid-astro` by yours)
 ```
 <dependency>
     <groupId>org.grobid</groupId>
@@ -57,23 +53,11 @@ Edit dependency to your project `grobid-smecta/pom.xml`
 </dependency>
 ```
 
-Edit `grobid-smecta/src/main/java/org/grobid/service/main/trainer/TrainerMain.java`
-```
-public static void main(String[] args) {
-
-	YourTrainer trainer = new YourTrainer();
-	
-	try {
-		TrainerService.runTrainer(args, trainer);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-}
-```
 
 ## Install
 
 `> mvn clean install`
+
 
 
 ## Usage
@@ -91,6 +75,8 @@ Webservice API is now available at `http://localhost:5100/api`
 Wepapp is now available at `http://localhost:5200`
 
 A proxy is made to api at `http://localhost:5200/api`
+
+
 
 ## Developpment
 
