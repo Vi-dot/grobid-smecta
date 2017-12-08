@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.grobid.core.main.LibraryLoader;
-import org.grobid.core.mock.MockContext;
 import org.grobid.core.utilities.GrobidProperties;
 import org.grobid.core.utils.SmectaProperties;
 import org.grobid.service.data.model.TrainingParams;
@@ -69,7 +68,6 @@ public class TrainerRunner {
 			String grobidHome = SmectaProperties.get("grobid.home");
 			String grobidProperties = SmectaProperties.get("grobid.properties");
 
-			MockContext.setInitialContext(grobidHome, grobidProperties);
 			GrobidProperties.getInstance();
 
 			LibraryLoader.load();
